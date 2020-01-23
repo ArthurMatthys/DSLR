@@ -84,18 +84,20 @@ def print_description(feature):
     features = ["", "Count", "Mean", "Std", "Min", "25%", "50%",
                 "75%", "Max"]
     size = []
-    for j, _ in enumerate(feature):
+    for j in range(len(feature)):
         size.append(len(feature[j][0]))
 
-    for index, _ in enumerate(features):
+    for index in range(len(features)):
         print(f"{features[index]:{10}}", end="")
-        for j, _ in enumerate(feature):
+        for j in range(len(feature)):
             print(f"{str(feature[j][index]):{size[j] + 5}.{size[j] + 2}}",
                   end="")
         print("")
 
+    return
 
-def main():
+
+def run():
     """
     Main function
     """
@@ -124,4 +126,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run()
