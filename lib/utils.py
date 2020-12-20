@@ -1,4 +1,5 @@
 import argparse
+from pandas import read_csv
 
 
 def get_args():
@@ -11,13 +12,12 @@ def get_args():
     return parser.parse_args()
 
 
-def open_data(filename):
+def open_data(filename, names):
     """
     Open the given file
     """
     try:
-        with open(filename, "r") as file:
-            content = file.read()
+        content = read_csv(filename, names=names)
     except FileNotFoundError:
         raise FileNotFoundError
     except IsADirectoryError:
@@ -25,26 +25,6 @@ def open_data(filename):
     except PermissionError:
         raise PermissionError
     return content
-
-
-def in_list(lst, element):
-    """
-    return 1 if element is in lst else 0
-    """
-    for elem in lst:
-        if element == elem[0]:
-            return elem[1]
-    return 0
-
-
-def find_column(column_names, names):
-    """
-    Get the index of column we need to work on
-    """
-
-    list_index = [in_list(names, name) for name in column_names]
-    return list_index
-
 
 def standard_deviation(value, mean, length):
     """
@@ -58,7 +38,7 @@ def describe(column):
     """
     Evaluate all features for all columns
     """
-    data = sorted(column[1])
+    data = sorted(column)
     length = len(data)
     mean = format(sum(data) / length, '.4f')
     std = format(standard_deviation(data, float(mean), length), '.4f')
