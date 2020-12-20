@@ -1,13 +1,22 @@
 import os
 import sys
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 
 sys.path.insert(0,
                 os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import lib
 
-def sephist(col):
-
+def plot_df(df, names, list_colnames, hogwarts_house, colors):
+    plt.figure(figsize=(16,4))
+    plt.suptitle('Distribution of grades per Houses for each class')
+    for i, feature_name in enumerate(list_colnames, start=1):
+        plt.subplot(4, 4, i)
+        for j, house in enumerate(hogwarts_house):
+            plt.hist(df.loc[df['Hogwarts House'] == house][feature_name], alpha=0.5, color=colors[j])
+            plt.tick_params(axis='both', which='both', left=False, labelleft=False, bottom=False, labelbottom=False)
+            plt.xlabel(feature_name)
+    plt.legend(hogwarts_house, bbox_to_anchor=(5, 1))
+    plt.show()
 
 def main():
     """
@@ -20,6 +29,7 @@ def main():
             "Transfiguration","Potions","Care of Magical Creatures",
             "Charms","Flying"]
     hogwarts_house = ["Hufflepuff", "Gryffindor", "Slytherin", "Ravenclaw"]
+    colors = ["b", "r", "y", "g"]
 
     args = lib.get_args()
     df = lib.open_data(args.data, names)[1:]
@@ -27,18 +37,9 @@ def main():
     df = df.dropna()
     cols = df.columns
     df[cols[1:]] = df[cols[1:]].astype(float)
-
     list_colnames = list(cols)[1:]
-    for 
-
-    # print(list_colnames)   
-    # print(df) 
-    # for name in list_colnames:
-    #     subset = df[name].hist(by=df['Hogwarts House'])
-    #     for axis in subset.flatten():
-    #         axis.set_xticklabels([])
-    #         axis.set_yticklabels([])
-    # pyplot.show()
+    plot_df(df, names, list_colnames, hogwarts_house, colors)
+    
 
 if __name__ == "__main__":
     main()
