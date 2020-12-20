@@ -6,7 +6,14 @@ sys.path.insert(0,
                 os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import lib
 
-def plot_df(df, names, list_colnames, hogwarts_house, colors):
+def plot_df(df, names, list_colnames):
+    """
+    Function that plots, for each course, the distribution of grades per house
+    It overlays the results : each house is present on each field
+    """
+    colors = ["b", "r", "y", "g"]
+    hogwarts_house = ["Hufflepuff", "Gryffindor", "Slytherin", "Ravenclaw"]
+
     plt.figure(figsize=(16,4))
     plt.suptitle('Distribution of grades per Houses for each class')
     for i, feature_name in enumerate(list_colnames, start=1):
@@ -28,8 +35,6 @@ def main():
             "Muggle Studies","Ancient Runes","History of Magic",
             "Transfiguration","Potions","Care of Magical Creatures",
             "Charms","Flying"]
-    hogwarts_house = ["Hufflepuff", "Gryffindor", "Slytherin", "Ravenclaw"]
-    colors = ["b", "r", "y", "g"]
 
     args = lib.get_args()
     df = lib.open_data(args.data, names)[1:]
@@ -38,7 +43,7 @@ def main():
     cols = df.columns
     df[cols[1:]] = df[cols[1:]].astype(float)
     list_colnames = list(cols)[1:]
-    plot_df(df, names, list_colnames, hogwarts_house, colors)
+    plot_df(df, names, list_colnames)
     
 
 if __name__ == "__main__":
